@@ -1,4 +1,4 @@
-const Model = require("../models/model.js");
+const User = require("../models/model.js");
 
 /*
 // Create and Save a new Customer
@@ -116,3 +116,33 @@ exports.deleteAll = (req, res) => {
   });
 };
 */
+// Create and Save a new User
+exports.create = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  // Create a Customer
+  const user = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    phoneNumber: req.body.phoneNumber,
+    location: req.body.location,
+    image: req.body.image,
+    iBan: req.body.iBan
+  });
+
+  // Save Customer in the database
+  User.create(user, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the User."
+      });
+    else res.send(data);
+  });
+};
