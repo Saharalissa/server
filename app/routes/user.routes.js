@@ -1,6 +1,7 @@
 module.exports = app => {
-  const users = require("../controllers/controller.js");
-
+  const users = require("../controllers/user.controller.js");
+  // const dotenv = require('dotenv');
+  // dotenv.config();
   // Create a new Customer
   // app.post("/customers", customers.create);
 
@@ -19,5 +20,6 @@ module.exports = app => {
   // Create a new Customer
   // app.delete("/customers", customers.deleteAll);
    // Create a new User
-   app.post("/users", users.create);
+   app.post("/users/create", users.create);
+   app.post("/users/login", users.check);
 };
