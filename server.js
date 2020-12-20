@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: '../../.env' });
 
 const app = express();
-const db = require("./app/models/db");
+
 // dotenv.config();
 // const cookieParser = require("cookie-parser");
 // const session = require("express-session");
