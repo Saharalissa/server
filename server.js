@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 var fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config({ path: '../../.env' });
+const cors = require ('cors');
 
 const app = express();
 
@@ -28,13 +29,14 @@ app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.urlencoded({ extended: false }));
 
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "welcome to our deployed app." });
 });
 
+//using CORS
+app.use(cors());
 //authentication 
 app.post("/signup", (req, res) => {
    const username =  req.body.username;
@@ -100,7 +102,9 @@ app.post("/signin", (req, res) => {
         })
           //creates my session
         // req.session.user =  {auth:true,token: token, result: result}
+        console.log("signed user: ", { token: token });
         res.json({auth:true, token: token, result: result});
+        
         }
         else {
         res.json({auth:false, message:'wrong password '});

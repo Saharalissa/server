@@ -117,9 +117,9 @@ exports.deleteAll = (req, res) => {
 };
 */
 
-exports.now = (req, res) => {
-  res.send({message: "hiiii"})
-}
+// exports.now = (req, res) => {
+//   res.send({message: "hiiii"})
+// }
 
 //create and save new user
 // exports.create = (req, res) => {
@@ -150,33 +150,5 @@ exports.now = (req, res) => {
 //     else res.send(data);
 //   });
 // };
-
-// exports.check = (req, res) => {
-//   const info = {
-//     username: req.body.username,
-//     password: req.body.password
-//   };
-//   if (info.username && info.password) {
-//     User.check(info ,(err, data) => {
-//       if (err)
-//         res.status(500).send({
-//           message:
-//             err.message || "Some error occurred while retrieving customers."
-//         }); 
-//     });
-//   } 
-//   };
-
-/*
-{
-    "username": "areenbadran",
-    "email": "areenbadran9@gmail.com",
-    "password": "areenwow1234",
-    "phoneNumber": "0775498673",
-    "location": "12454",
-    "image": "url146416454",
-    "iBan": "skskss"
-}
-*/
 
 
