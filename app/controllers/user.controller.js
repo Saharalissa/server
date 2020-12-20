@@ -141,6 +141,7 @@ exports.create = (req, res) => {
     if(err) {
       console.log(err);
     }
+    
 
   // Check User in the database
   User.create(user, (err, data) => {

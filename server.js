@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 // const dotenv = require('dotenv');
 const app = express();
-// const db = require("./app/models/db");
+const db = require("./app/models/db");
 // dotenv.config();
 // const cookieParser = require("cookie-parser");
 // const session = require("express-session");
@@ -40,4 +40,20 @@ require("./app/routes/user.routes.js")(app);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+});
+app.post("/SignUp1", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  bcrypt.hash(password, saltRounds, (err, hash) => {
+    if (err) {
+      console.log(err);
+    }
+    MyDataBase.query(
+      "INSERT INTO users (email, password) VALUES (?,?)",
+      [email, hash],
+      (err, result) => {
+        console.log(err);
+      }
+    );
+  });
 });
