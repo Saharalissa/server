@@ -30,21 +30,21 @@ const Item = function(item) {
 };
 
 //==========================================================================
-// Now you need to create the tables (users,items) using terminal 
+// Now you need to create the tables (users,items) using terminal/mysql workbench
 
 //==========================================================================
 /*
 //add new record to items table
-Item.create = (newItem, result) => {
-  sql.query("INSERT INTO items SET ?", newItem, (err, res) => {
+Customer.create = (newCustomer, result) => {
+  sql.query("INSERT INTO items SET ?", newCustomer, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created item: ", { id: res.insertId, ...newItem });
-    result(null, { id: res.insertId, ...newItem });
+    console.log("created item: ", { id: res.insertId, ...newCustomer });
+    result(null, { id: res.insertId, ...newCustomer });
   });
 };
 */
@@ -152,23 +152,40 @@ User.create = (newUser, result) => {
   });
 };
 
-User.check = (user, result) => {
-  sql.query("SELECT * FROM users WHERE username = ? AND password = ?",[user.username, user.password], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-    
-    // console.log("checked user: ", { id: res.Id, ...user });
-    // result(null, { id: res.Id, ...user });
-    else if (user) {
-     result(null, { id: res.Id, ...user });
-    } else {
-      res.send({message: "Wrong username/password combination"})
-    }   
-  });
-};
+//add new record to users table
+// User.create = (newUser, result) => {
+//   sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
+//     if (err) {
+//       console.log("error: ", err);
+//       result(err, null);
+//       return;
+//     }
 
+//     console.log("created user: ", { id: res.insertId, ...newUser });
+//     result(null, { id: res.insertId, ...newUser });
+//   });
+// };
+
+
+// User.check = (info, result) => {
+//   sql.query("SELECT * FROM users WHERE username = ? AND password = ?", [info.username, info.password], (err, res) => {
+
+//     if (err) {
+//       console.log("error: ", err);
+//       result(err, null);
+//       return;
+//     }
+
+//       if (result) {
+//         console.log("logged in");
+//       } else {
+//         console.log("no user found")
+//       }
+    
+//     console.log("created user: ", { id: res.insertId, ...info });
+//     result(null, { id: res.insertId, ...info });
+//   });
+// };
+ 
 module.exports = User;
 // module.exports = Item;
