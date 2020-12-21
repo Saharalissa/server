@@ -43,7 +43,7 @@ app.post("/signup", (req, res) => {
     if (email) {
       db.query('SELECT * FROM users WHERE email = ?', [email], (error, results) => {
         if (results.length > 0) {
-          res.send({message: "email already exist"});
+          res.status(402).res.send({message: "email already exist"});
         } else {
           db.query(
             "INSERT INTO users (username, email, password, phoneNumber, location, image, iBan ) VALUES (?,?,?,?,?,?,?)",
@@ -90,12 +90,12 @@ app.post("/signin", (req, res) => {
         res.json({auth:true, token: token, result: result});
         }
         else {
-        res.json({auth:false, message:'wrong password '});
+        res.status(402).json({auth:false, message:'email or password is incorrect'});
           }
         });
         }
         else {
-        res.json({auth:false, message:'no user'});
+        res.status(402).json({auth:false, message:'email or password is incorrect'});
        }
        }
        );
