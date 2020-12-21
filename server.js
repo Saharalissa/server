@@ -4,25 +4,24 @@ const db = require("./app/models/db");
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
-const cors = require('cors');
 var fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config({ path: '../../.env' });
-
+var cors = require('cors')
 const app = express();
+
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
-//using CORS
-app.use(cors());
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors())
 
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "welcome to our deployed app." });
 });
+
 //authentication 
 app.post("/signup", (req, res) => {
    const username =  req.body.username;
@@ -32,10 +31,12 @@ app.post("/signup", (req, res) => {
    const location = req.body.location;
    const image = req.body.image;
    const iBan = req.body.iBan;
+ 
   //  if (username) {
   //    res.send({message: "user already exist"});
   //  } 
   bcrypt.hash(password, saltRounds, (err, hash) => {
+    
     if (err) {
       console.log(err);
     }
@@ -64,30 +65,29 @@ app.post("/signup", (req, res) => {
     }
   });
 });
+
 app.post("/signin", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const id = req.body.id;
+
   //checks the database
   db.query("SELECT * FROM users WHERE email = ?;", email, (err, result) => {
      if (err) {
     res.send({ err: err });
   }
      if (result.length > 0) {
-         console.log('hey')
        //check the bycrypted password
       bcrypt.compare(password, result[0].password, (error, response) => {
       if (response) {
            req.body.id = result[0].id
            //creates the token
           const token = jwt.sign({id}, process.env.SECRET_TOKEN, {
-          expiresIn:1000
+          expiresIn:1000,
         })
-      
-          //creates my session
-        // req.session.user =  {auth:true,token: token, result: result}
+  
+        console.log("signed in", {token: token})
         res.json({auth:true, token: token, result: result});
-        console.log("signed user: ", {token: token});
         }
         else {
         res.json({auth:false, message:'wrong password '});
@@ -101,16 +101,14 @@ app.post("/signin", (req, res) => {
        );
         });
 
-require("./app/routes/user.routes.js")(app);
+
+
 
 require("./app/routes/routes.js")(app);
 // require("./app/routes/item.routes.js")(app2);
-
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-

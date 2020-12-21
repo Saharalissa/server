@@ -1,12 +1,5 @@
 const sql = require("./db.js");
-const jwt = require('jsonwebtoken');
-// const cookieParser = require("cookie-parser");
-// const session = require("express-session");
-// const cors = require("cors");
-const saltRounds = 10;
-const http = require("http");
-const bcrypt = require("bcrypt");
-var fs = require('fs');
+
 //========================================================================
 // constructor (Tables) model of tables
 const User = function(user) {
@@ -174,20 +167,6 @@ Customer.removeAll = result => {
   });
 };
 */
-//Regestration
-User.create = (newUser, result) => {
- 
-  sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created user: ", { id: res.insertId, ...newUser });
-    result(null, { id: res.insertId, ...newUser });
-  });
-};
 
 //add new record to users table
 // User.create = (newUser, result) => {

@@ -6,11 +6,13 @@ module.exports = app => {
 
 
 
+
   // Update a items with itemsId
 
   app.put("/items/:id", controller.updateitems);
 
   app.get("/ItemsList", controller.findAll);   // this url it the same as api in front end 
+
 
 
   // app.get("/see", controller.now);
