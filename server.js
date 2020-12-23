@@ -32,18 +32,18 @@ app.post("/signup", (req, res) => {
    const image = req.body.image;
    const iBan = req.body.iBan;
  
-  //  if (username) {
-  //    res.send({message: "user already exist"});
-  //  } 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     
     if (err) {
       console.log(err);
     }
-    if (email) {
+    if (!username || !email || !password || !phoneNumber || !location || !image ) {
+      res.status(400).json({message: "please enter username"})
+    }
+    else if (email) {
       db.query('SELECT * FROM users WHERE email = ?', [email], (error, results) => {
         if (results.length > 0) {
-          res.status(402).res.send({message: "email already exist"});
+          res.status(402).send({message: "email already exist"});
         } else {
           db.query(
             "INSERT INTO users (username, email, password, phoneNumber, location, image, iBan ) VALUES (?,?,?,?,?,?,?)",
@@ -70,7 +70,6 @@ app.post("/signin", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const id = req.body.id;
-
   //checks the database
   db.query("SELECT * FROM users WHERE email = ?;", email, (err, result) => {
      if (err) {
@@ -80,27 +79,26 @@ app.post("/signin", (req, res) => {
        //check the bycrypted password
       bcrypt.compare(password, result[0].password, (error, response) => {
       if (response) {
-           req.body.id = result[0].id
+           req.body.id = result[0].id //comment this
            //creates the token
-          const token = jwt.sign({id}, process.env.SECRET_TOKEN, {
-          expiresIn:1000,
-        })
-  
-        console.log("signed in", {token: token})
+          const token = jwt.sign({id}, process.env.SECRET_TOKEN);
+        // res.send(token);
+          //creates my session
+        // req.session.user =  {auth:true,token: token, result: result}
+        console.log("signed user: ", {token: token});
         res.json({auth:true, token: token, result: result});
         }
         else {
-        res.status(402).json({auth:false, message:'email or password is incorrect'});
+        res.status(402).json({auth:false, message:'password is incorrect'});
           }
         });
         }
         else {
-        res.status(402).json({auth:false, message:'email or password is incorrect'});
-       }
+          res.status(402).json({auth:false, message:'email is empty'});
+        }
        }
        );
         });
-
 
 
 
