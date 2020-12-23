@@ -1,4 +1,4 @@
-// const User = require("../models/user.model.js");
+const User = require("../models/user.model.js");
 const Item = require("../models/item.model.js");
 
 
@@ -68,6 +68,17 @@ exports.updateitems = (req, res) => {
 //retrieve all the items in our database
 exports.findAll = (req, res) => {
   Item.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving customers."
+      });
+    else res.send(data);
+  });
+};
+
+exports.findUser = (req, res) => {
+  User.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:

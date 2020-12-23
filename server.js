@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
   res.json({ message: "welcome to our deployed app." });
 });
 
+
 //authentication 
 app.post("/signup", (req, res) => {
    const username =  req.body.username;
@@ -31,16 +32,14 @@ app.post("/signup", (req, res) => {
    const location = req.body.location;
    const image = req.body.image;
    const iBan = req.body.iBan;
- 
+
   bcrypt.hash(password, saltRounds, (err, hash) => {
     
     if (err) {
       console.log(err);
     }
-    if (!username || !email || !password || !phoneNumber || !location || !image ) {
-      res.status(400).json({message: "please enter username"})
-    }
-    else if (email) {
+    
+    else  {
       db.query('SELECT * FROM users WHERE email = ?', [email], (error, results) => {
         if (results.length > 0) {
           res.status(402).send({message: "email already exist"});
