@@ -82,8 +82,6 @@ app.post("/signin", (req, res) => {
            //creates the token
           const token = jwt.sign({id}, process.env.SECRET_TOKEN);
         // res.send(token);
-          //creates my session
-        // req.session.user =  {auth:true,token: token, result: result}
         console.log("signed user: ", {token: token});
         res.json({auth:true, token: token, result: result});
         }
